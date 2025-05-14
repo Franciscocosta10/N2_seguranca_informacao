@@ -1,9 +1,17 @@
 const db = require('../models');
-const User = db.User;
+const sequelize = db.sequelize;
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const nome = req.query.nome;
+    let query = 'SELECT * FROM Users';
+
+    if (nome) {
+      // Vulnerável a SQL Injection
+      query += ` WHERE nome = '${nome}'`;
+    }
+
+    const [users] = await sequelize.query(query);
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -12,7 +20,7 @@ exports.getAllUsers = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const user = await User.create(req.body);
+    const user = await db.User.create(req.body);
     res.status(201).json(user);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -21,14 +29,23 @@ exports.createUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const [updated] = await User.update(req.body, {
-      where: { id: req.params.id }
-    });
+    const id = req.params.id;
+    const { nome, email, senha } = req.body;
 
-    if (!updated) return res.status(404).json({ error: 'Usuário não encontrado' });
+    const query = `
+      UPDATE Users
+      SET nome = '${nome}', email = '${email}', senha = '${senha}'
+      WHERE id = ${id}
+    `;
 
-    const updatedUser = await User.findByPk(req.params.id);
-    res.status(200).json(updatedUser);
+    const [result] = await sequelize.query(query);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    const [users] = await sequelize.query(`SELECT * FROM Users WHERE id = ${id}`);
+    res.status(200).json(users[0]);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -36,11 +53,14 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const deleted = await User.destroy({
-      where: { id: req.params.id }
-    });
+    const id = req.params.id;
 
-    if (!deleted) return res.status(404).json({ error: 'Usuário não encontrado' });
+    const query = `DELETE FROM Users WHERE id = ${id}`;
+    const [result] = await sequelize.query(query);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
 
     res.status(200).json({ message: 'Usuário excluído com sucesso' });
   } catch (err) {
