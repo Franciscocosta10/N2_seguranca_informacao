@@ -24,7 +24,7 @@ Este projeto é uma API desenvolvida com Node.js e Express que simula uma aplica
 
 `git clone https://github.com/seu-usuario/https://github.com/Franciscocosta10/N2_seguranca_informacao`
 
-1. **Instale as dependências:**
+2. **Instale as dependências:**
 
 `npm install`
 
