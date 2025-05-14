@@ -41,7 +41,7 @@ const sequelize = new Sequelize('N2_seguranca', 'usuario', 'senha', {
 
 4. **Rode o projeto:**
 
-npm start
+`npm start`
 
 ## 📌 Exemplo de Requisição da API
 
