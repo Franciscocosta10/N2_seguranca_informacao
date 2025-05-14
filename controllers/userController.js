@@ -7,7 +7,6 @@ exports.getAllUsers = async (req, res) => {
     let query = 'SELECT * FROM Users';
 
     if (nome) {
-      // Vulnerável a SQL Injection
       query += ` WHERE nome = '${nome}'`;
     }
 
