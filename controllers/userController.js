@@ -19,7 +19,13 @@ exports.getAllUsers = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const user = await db.User.create(req.body);
+    const { nome, email, senha } = req.body;
+
+    if (!nome || !email || !senha) {
+      return res.status(400).json({ error: 'Campos obrigatórios faltando' });
+    }
+
+    const user = await db.User.create({ nome, email, senha });
     res.status(201).json(user);
   } catch (err) {
     res.status(400).json({ error: err.message });
