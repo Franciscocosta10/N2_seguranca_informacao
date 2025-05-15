@@ -24,7 +24,7 @@ Este projeto é uma API desenvolvida com Node.js e Express que simula uma aplica
 
 `git clone https://github.com/seu-usuario/https://github.com/Franciscocosta10/N2_seguranca_informacao`
 
-1. **Instale as dependências:**
+2. **Instale as dependências:**
 
 `npm install`
 
@@ -41,7 +41,7 @@ const sequelize = new Sequelize('N2_seguranca', 'usuario', 'senha', {
 
 4. **Rode o projeto:**
 
-npm start
+`npm start`
 
 ## 📌 Exemplo de Requisição da API
 
