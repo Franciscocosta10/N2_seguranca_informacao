@@ -7,9 +7,9 @@
 </head>
 <body>
   <div class="login_container">
-    <form action="http://localhost:3000/users" method="GET" class="login">
-      <input type="text" name="nome" placeholder="Usuário">
-      <input type="password" placeholder="Senha">
+    <form action="http://localhost:3000/login" method="POST" class="login">
+      <input type="text" name="email" placeholder="Email">
+      <input type="password" name="senha" placeholder="Senha">
       <input type="submit" value="Entrar">
     </form>
   </div>

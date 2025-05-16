@@ -25,8 +25,8 @@ exports.createUser = async (req, res) => {
       return res.status(400).json({ error: 'Campos obrigatórios faltando' });
     }
 
-    const user = await db.User.create({ nome, email, senha });
-    res.status(201).json(user);
+    await db.User.create({ nome, email, senha });
+    res.status(201).json({ message: 'Usuário registrado com sucesso!' });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
